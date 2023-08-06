@@ -1,0 +1,3 @@
+#include "appicon.h"
+
+IDI_ICON1 ICON DISCARDABLE "icons8-create-pastel-96_free.ico"

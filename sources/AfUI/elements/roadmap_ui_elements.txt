@@ -1,0 +1,107 @@
+
+namespace views { 			// примитивные элементы, автоматически добавляються в render_tree
+	struct block_view;  	// базовые элемент для наследования
+}
+namespace controls { 		// примитивные элементы, автоматически добавляються в event_tree
+	struct block_control;  	// базовые элемент для наследования
+}
+
+namespace blocks { 			// готовые элементы собранные из примитивов 
+	struct block; 			// базовые элемент для наследования, так же содержит данные для вычисления layout-ов
+}		
+
+namespace views {
+	// version 0.1
+	struct rect_view;  		// рисование области с рамкой (прямоугольная)
+	struct circle_view;  	// рисование области с рамкой (куруглая)
+	struct text_view;  		// рисование текста
+	struct image_view;  	// рисование изображения
+	
+	// version 0.2
+	struct slider_view; 	// rect_view + text_view
+	
+	// version 0.3
+	struct scroll_view; 	// slider_view
+	
+	// version 0.6
+	struct multitext_view;  
+	
+	//..
+}
+
+namespace controls { 	
+	// version 0.1
+	struct button_control;  // кнопка
+	
+	// version 0.2
+	struct textedit_control;// однострочный текст с редактированием
+	struct slider_control;  // слайдер
+	
+	// version 0.3
+	struct scroll_control;  // скрол, complex slider_control + button_control + button_control
+	
+	// version 0.6
+	struct multitextedit_control; // многострочный текст с редактированием
+	
+	//..
+}
+
+namespace blocks { 
+	// version 0.1
+	struct rect_color;		// rect_view
+	struct circle_color;	// circle_view
+	struct text;			// однострочный текст text_view 
+	struct image;			// image_view
+	struct button;			// button_control + rect_view + text_view
+	struct imagebutton;		// button_control + rect_view + image_view
+	struct checkbox;		// button_control + rect_view + text_view
+	struct radio;			// button_control + circle_view + circle_view
+	
+	// version 0.2
+	struct textedit;		// однострочный текст с редактированием  textedit_control + rect_view + text_view
+	struct progressbar;		// rect_view + rect_view + text_view
+	struct slider;			// slider_control + slider_view
+	
+	// version 0.3
+	struct scroll;  		// scroll_control + scroll_view
+	
+	// version 0.4
+	struct item;			// based button, айтем который помещаеться в списки/таблици/деревья/popup, 
+							// наследуя его можно создавать свои кастомные пункты
+	struct listbox; 		// [complex] список с выбором пункта style(list) + item + scroll
+	struct combo; 			// [complex]
+	struct treebox; 		// [complex]
+	struct tablebox; 		// [complex]
+	
+	// version 0.5
+	// [сплывающие окна обрабатываються особым образом, но их надо собрать из айтемов]
+	struct popuplist;		// [complex] базовый список для айтемов в сплывающем окне
+	struct menubar;
+	
+	// version 0.6
+	struct multitext;		// многострочный текст multitext_view
+	struct multitextedit;	// многострочный текст с редактированием  multitextedit_control + rect_view + multitext_view
+	
+	//..
+}	
+
+
+// special style options for block
+//enum class styles_layout_type {
+//	// version 0.1
+//	static,					// рисуем предков по принципу как в imgui но через заданные размеры и позиции setcursorpos
+//	
+//	// version 0.2
+//	linear,					// рисуем предков по принципу как в imgui
+//	
+//	// version 0.4
+//	list,	 				// рисуем предков в виде листа
+//	table,					// рисуем предков в виде таблици
+//	tree,					// рисуем предков в виде дерева
+
+//	// version 0.6
+//	flexbox					// рисуем предков в виде флекс
+//};
+//
+// flag popup	
+// flag composite 	оптимизации рендеринга чтобы не перирисовывать то что нарисовано выше по уровню

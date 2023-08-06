@@ -1,0 +1,10 @@
+set(IMGUI_INCLUDE_DIR "${DEPS_DIRECTORY}/imgui")
+file(GLOB IMGUI_SOURCES "${IMGUI_INCLUDE_DIR}/*.cpp")
+file(GLOB IMGUI_HEADERS "${IMGUI_INCLUDE_DIR}/*.h")
+add_library("imgui" STATIC ${IMGUI_SOURCES} ${IMGUI_SOURCES})
+source_group("sources"  FILES  ${IMGUI_SOURCES} ${IMGUI_SOURCES})
+add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GLAD) # special for opengl
+include_directories(${IMGUI_INCLUDE_DIR})
+set_target_properties("imgui" PROPERTIES LINKER_LANGUAGE CXX)
+set_target_properties("imgui" PROPERTIES FOLDER "libs")
+set(IMGUI_LIBRARIES "imgui")

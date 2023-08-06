@@ -30,3 +30,17 @@
 *.exe
 *.out
 *.app
+
+# dirs
+intermediates
+project
+project2
+deps/nanovg
+deps/imgui
+deps/SDL
+deps/stb
+deps/tinyxml2
+
+build/main.pdb
+build/imgui.ini
+
