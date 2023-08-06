@@ -2,7 +2,7 @@
 
 namespace AfUI {
 	
-	inline std::string tools_to_string( f64& val ) {  // microsoft std is problem
+	inline std::string tools_to_string( double& val ) {  // microsoft std is problem
 		const auto _Len = static_cast<size_t>( std::snprintf( nullptr, 0, "%.17g", val ) );
 		assert( _Len >= 0 );
 		if ( _Len < 0 ) return "";

@@ -3,5 +3,58 @@
 namespace AfUI {
 
 
+    // todo move to other file
+    
+    namespace views {                                  // примитивные элементы, автоматически добавл€ютьс€ в render_tree
 
+        struct block_view : public object_header {  // базовые элемент дл€ наследовани€
+
+            virtual void registration(  ) {}  // регистраци€ эвентов
+            
+        };
+
+    }
+
+    namespace controls {        // примитивные элементы, автоматически добавл€ютьс€ в event_tree
+
+        struct block_control : public object_header {  // базовые элемент дл€ наследовани€
+
+            virtual void registration() {}  // регистраци€ эвентов
+
+            
+        };
+
+    }
+
+    namespace blocks {  // готовые элементы собранные из примитивов
+
+        struct block : public object_header {  // базовые элемент дл€ наследовани€, так же содержит данные дл€ вычислени€ layout-ов
+        private:
+            var_list                             vars;      // список переменных
+            list_header<views::block_view>       views;     // список элементов дл€ отрисовки
+            list_header<controls::block_control> controls;  // список элементов дл€ обработки эвентов
+
+        public:
+            var_list&                             get_varlist() { return vars; }
+            list_header<views::block_view>&       get_views() { return views; }
+            list_header<controls::block_control>& get_controls() { return controls; }
+            virtual void                          build() {}  // инициаци€ внутренних обьектов и списков
+
+        public: 
+            //// перемещение обьекта в пам€ти дл€ оптимизации кэша (feature 0.7)
+            //virtual void memorymove( void* to_memory ) { assert( false && "not_support" ); }  
+            //// 1. надо создать в этой пам€ти новый блок через cpp_placement_new
+            //// 2. скопировать переменные и внутренние обьекты
+            //// 3. рекурсивно вызвать метод memorymove кого используем
+        };
+
+    }
+
+    namespace blocks {
+        struct example_block : block {
+            var_string var_string{ "var_string", "defstring", get_varlist() };
+            var_f32    var_f32{ "var_f32", get_varlist() };
+            var_remove var_string_remove{ var_string, get_varlist() };
+        };
+    }
 }

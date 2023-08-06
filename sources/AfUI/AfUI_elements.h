@@ -1,29 +1,5 @@
 #pragma once
 
-// version 0.01
-
-namespace AfUI {
-
-    namespace views {           // примитивные элементы, автоматически добавляються в render_tree
-        struct block_view {     // базовые элемент для наследования
-
-        };
-    }
-
-    namespace controls {        // примитивные элементы, автоматически добавляються в event_tree
-        struct block_control {  // базовые элемент для наследования
-
-        };
-    }
-
-    namespace blocks {           // готовые элементы собранные из примитивов
-        struct block {          // базовые элемент для наследования, так же содержит данные для вычисления layout-ов
-
-        };
-    }
-
-}
-
 // version 0.1
 #include "elements/view_rect.h"
 #include "elements/view_circle.h"
