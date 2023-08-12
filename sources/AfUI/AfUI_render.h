@@ -2,6 +2,9 @@
 
 namespace AfUI {
 
-
+    class render {
+    public:
+        
+    };
 
 }

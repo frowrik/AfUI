@@ -2,24 +2,70 @@
 
 namespace AfUI {
 
+    namespace views { 
+        struct block_view;
+    }
+    namespace controls { 
+        struct block_control;
+    }
+    namespace blocks {
+        struct block;
+    }
 
-    // todo move to other file
-    
-    namespace views {                                  // примитивные элементы, автоматически добавл€ютьс€ в render_tree
+
+
+
+    namespace views { // примитивные элементы, автоматически добавл€ютьс€ в render_tree
+
 
         struct block_view : public object_header {  // базовые элемент дл€ наследовани€
 
-            virtual void registration(  ) {}  // регистраци€ эвентов
-            
+            virtual void registration( blocks::block* parent ) {}  // регистраци€ эвентов
+            virtual void draw( render* rapi, irect allowrect ) {}  // отрисовка элемента
         };
 
     }
 
     namespace controls {        // примитивные элементы, автоматически добавл€ютьс€ в event_tree
 
+        
+        struct event_header;
+
+        struct event_list : private list_header<var_header> {
+        public:
+            void            add( event_header& ev_ ); 
+            void            remove( event_header& ev_ ); 
+            event_header*   begin();
+            event_header*   end();
+        };
+
+        
+        struct event_header : public object_header, private list_item_header<var_header> {  // базовые элемент дл€ хранени€ данных в блоке
+            friend event_list;
+
+        private:
+            std::string name = "null";
+
+        public:
+            std::string_view get_name();
+
+            event_header() = delete;
+            event_header( std::string_view name_, event_list& eventslist ) {
+                name = name_;
+                eventslist.add( *this );
+            }
+        };
+
+        struct var_remove {  // удаление блока
+        public:
+            var_remove() = delete;
+            var_remove( event_header& ev_, event_list& eventslist ) { eventslist.remove( ev_ ); }
+        };
+
+
         struct block_control : public object_header {  // базовые элемент дл€ наследовани€
 
-            virtual void registration() {}  // регистраци€ эвентов
+            virtual void registration( blocks::block* parent ) {}  // регистраци€ эвентов
 
             
         };
@@ -38,7 +84,7 @@ namespace AfUI {
             var_list&                             get_varlist() { return vars; }
             list_header<views::block_view>&       get_views() { return views; }
             list_header<controls::block_control>& get_controls() { return controls; }
-            virtual void                          build() {}  // инициаци€ внутренних обьектов и списков
+            virtual void                          registration() {}  // регистраци€ внутренних обьектов и списков
 
         public: 
             //// перемещение обьекта в пам€ти дл€ оптимизации кэша (feature 0.7)
